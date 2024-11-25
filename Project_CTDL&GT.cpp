@@ -29,8 +29,8 @@ Node* TaoNut(int x) {
     return p;
 }
 
-// Ham them nut vao cuoi danh sach de tao thanh 1 chuoi danh sach (nhap vao danh sach)
-void ThemNutCuoi(Node*& pList, int n) {
+// Ham nhap danh sach 
+void NhapDanhSach(Node*& pList, int n) {
 	int x;
 	for (int i=0; i<n ;i++){
 		cout<<"Nhap gia tri cho nut thu "<<i+1<<": ";
@@ -40,12 +40,8 @@ void ThemNutCuoi(Node*& pList, int n) {
 	    if (pList == NULL) {
 	        pList = p;
 	    } else {
-	        Node* temp = pList;
-	        while (temp->next != NULL) {
-	            temp = temp->next;
-	        }
-	        temp->next = p;
-	        p->prev = temp;
+	        pList->next = p;
+	        p->prev = pList;
 	    }
 }
 }
@@ -145,7 +141,7 @@ void menu(Node*& pList) {
             case 1:
                 cout << "Nhap vao so luong nut cua danh sach: ";
                 cin>>n;
-                ThemNutCuoi(pList, n);
+                NhapDanhSach(pList, n);
                 cout<<"Qua trinh nhap thong tin cho cac nut duoc hoan thanh"<<endl;
                 break;
             case 2:
