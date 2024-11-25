@@ -11,17 +11,17 @@ struct Node {
 
 
 // Ham khoi tao danh sach rong
-void init(Node* &pList) {
+void KhoiTao(Node* &pList) {
     pList = NULL;
 }
 
 // Ham kiem tra danh sach rong
-bool isEmpty(Node* pList) {
+bool KiemTraDS(Node* pList) {
     return pList == NULL;
 }
 
 // Ham tao mot nut voi gia tri cho truoc
-Node* createNode(int x) {
+Node* TaoNut(int x) {
     Node* p = new Node;
     p->info = x;
     p->prev = NULL;
@@ -30,22 +30,28 @@ Node* createNode(int x) {
 }
 
 // Ham them nut vao cuoi danh sach de tao thanh 1 chuoi danh sach (nhap vao danh sach)
-void addTail(Node*& pList, int x) {
-    Node* p = createNode(x);
-    if (pList == NULL) {
-        pList = p;
-    } else {
-        Node* temp = pList;
-        while (temp->next != NULL) {
-            temp = temp->next;
-        }
-        temp->next = p;
-        p->prev = temp;
-    }
+void ThemNutCuoi(Node*& pList, int n) {
+	int x;
+	for (int i=0; i<n ;i++){
+		cout<<"Nhap gia tri cho nut thu "<<i+1<<": ";
+		cin>>x;
+		cin.ignore();
+	    Node* p = TaoNut(x);
+	    if (pList == NULL) {
+	        pList = p;
+	    } else {
+	        Node* temp = pList;
+	        while (temp->next != NULL) {
+	            temp = temp->next;
+	        }
+	        temp->next = p;
+	        p->prev = temp;
+	    }
+}
 }
 
 // Ham hien thi danh sach
-void displayList(Node* pList) {
+void HienThiDS(Node* pList) {
     Node* temp = pList;
     while (temp != NULL) {
         cout << temp->info << " ";
@@ -55,7 +61,7 @@ void displayList(Node* pList) {
 }
 
 // Ham tinh tong cac phan tu
-int SumList(Node* pList) {
+int TinhTong(Node* pList) {
     int sum = 0;
     Node* temp = pList;
     while (temp != NULL) {
@@ -66,7 +72,7 @@ int SumList(Node* pList) {
 }
 
 // Ham xoa nut co gia tri x
-void deleteNode(Node*& pList, int x) {
+void XoaNutX(Node*& pList, int x) {
     Node* temp = pList;
     while (temp != NULL && temp->info != x) {
         temp = temp->next;
@@ -88,7 +94,7 @@ void deleteNode(Node*& pList, int x) {
 }
 
 // Ham sap xep danh sach giam dan
-void sortDescending(Node*& pList) {
+void SapXepGiamDan(Node*& pList) {
     if (pList == NULL) return;
     for (Node* i = pList; i->next != NULL; i = i->next) {
         for (Node* j = i->next; j != NULL; j = j->next) {
@@ -100,8 +106,8 @@ void sortDescending(Node*& pList) {
 }
 
 // Ham chen gia tri vao danh sach giam dan
-void insertDescending(Node*& pList, int x) {
-    Node* p = createNode(x);
+void ChenGiaTriVaoDS_GiamDan(Node*& pList, int x) {
+    Node* p = TaoNut(x);
     if (pList == NULL || pList->info < x) {
         p->next = pList;
         if (pList != NULL) pList->prev = p;
@@ -120,8 +126,9 @@ void insertDescending(Node*& pList, int x) {
 
 // Menu
 void menu(Node*& pList) {
-    int choice;
+    int luachon;
     int x;
+    int n;
     do {
         cout << "\n===== MENU =====\n";
         cout << "1. Nhap danh sach\n";
@@ -132,60 +139,57 @@ void menu(Node*& pList) {
         cout << "6. Them nut moi voi thong tin x voi danh sach giam dan\n";
         cout << "0. Thoat\n";
         cout << "Lua chon cua ban: ";
-        cin >> choice;
+        cin >> luachon;
 
-        switch (choice) {
+        switch (luachon) {
             case 1:
-                cout << "Nhap gia tri (nhap -1 de ket thuc): "<<endl;
-                while (true) {
-                    cin>>x;
-                    if (x == -1) break;
-                    addTail(pList, x);
-                }
+                cout << "Nhap vao so luong nut cua danh sach: ";
+                cin>>n;
+                ThemNutCuoi(pList, n);
                 cout<<"Qua trinh nhap thong tin cho cac nut duoc hoan thanh"<<endl;
                 break;
             case 2:
-                if (isEmpty(pList)) {
+                if (KiemTraDS(pList)) {
                     cout << "Danh sach rong.\n";
                 } else {
                     cout << "Danh sach: ";
-                    displayList(pList);
+                    HienThiDS(pList);
                 }
                 break;
             case 3:
-                if (isEmpty(pList)) {
+                if (KiemTraDS(pList)) {
                     cout << "Danh sach rong, khong co gi de tinh tong.\n";
                 } else {
-                    cout << "Tong cac phan tu trong danh sach: " << SumList(pList) << endl;
+                    cout << "Tong cac phan tu trong danh sach: " << TinhTong(pList) << endl;
                 }
                 break;
             case 4:
-                if (isEmpty(pList)) {
+                if (KiemTraDS(pList)) {
                     cout << "Danh sach rong, khong co gi de xoa.\n";
                 } else {
                     cout << "Nhap gia tri x can xoa: ";
                     cin >> x;
-                    deleteNode(pList, x);
+                    XoaNutX(pList, x);
                     cout<<"Da xoa nut co gia tri "<<x<<" ra khoi danh sach"<<endl;
                     cout<<"Danh sach sau khi xoa: ";
-					displayList(pList); 
+					HienThiDS(pList); 
                 }
                 break;
             case 5:
-                if (isEmpty(pList)) {
+                if (KiemTraDS(pList)) {
                     cout << "Danh sach rong, khong co gi de sap xep.\n";
                 } else {
-                    sortDescending(pList);
+                    SapXepGiamDan(pList);
                     cout << "Danh sach sau khi sap xep: ";
-                    displayList(pList);
+                    HienThiDS(pList);
                 }
                 break;
             case 6:
                 cout << "Nhap gia tri x them: ";
                 cin >> x;
-                insertDescending(pList, x);
+                ChenGiaTriVaoDS_GiamDan(pList, x);
                 cout << "Danh sach sau khi them: ";
-                displayList(pList);
+                HienThiDS(pList);
                 break;
             case 0:
                 cout << "Thoat chuong trinh.\n";
@@ -196,13 +200,13 @@ void menu(Node*& pList) {
                 cout << "Lua chon khong hop le!\n";
                 break;
         }
-    } while (choice != 0);
+    } while (luachon != 0);
 }
 
 // Main
 int main() {
     Node* pList;
-    init(pList);
+	KhoiTao(pList);
     menu(pList);
     return 0;
 }
